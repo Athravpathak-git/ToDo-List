@@ -1,5 +1,5 @@
 /**
- * Atelier Productivity Dashboard
+ * AthravOS — Your Personal Productivity Space
  * Complete vanilla JavaScript implementation for task architecture,
  * dashboard metrics, calendar engine, categorization, theme management,
  * and robust local persistence.
@@ -50,6 +50,26 @@
         calendarViewContainer: document.getElementById('calendarViewContainer'),
         themeToggleBtn: document.getElementById('themeToggleBtn'),
         currentDateDisplay: document.getElementById('headerDateText'),
+
+        // Desktop Working Navigation Links
+        navDashboardToday: document.getElementById('navDashboardToday'),
+        navAllTasks: document.getElementById('navAllTasks'),
+        navCalendar: document.getElementById('navCalendar'),
+        navCategories: document.getElementById('navCategories'),
+
+        // Mobile Navigation Elements
+        mobileMenuToggleBtn: document.getElementById('mobileMenuToggleBtn'),
+        mobileMenuDrawer: document.getElementById('mobileMenuDrawer'),
+        mobileNavToday: document.getElementById('mobileNavToday'),
+        mobileNavAll: document.getElementById('mobileNavAll'),
+        mobileNavCalendar: document.getElementById('mobileNavCalendar'),
+        mobileNavCategories: document.getElementById('mobileNavCategories'),
+
+        // Mobile Bottom Navigation Bar
+        bottomNavDashboard: document.getElementById('bottomNavDashboard'),
+        bottomNavAllTasks: document.getElementById('bottomNavAllTasks'),
+        bottomNavCalendar: document.getElementById('bottomNavCalendar'),
+        bottomNavCategories: document.getElementById('bottomNavCategories'),
 
         // Metrics
         statTotal: document.getElementById('statTotal'),
@@ -152,16 +172,6 @@
     }
 
     /**
-     * Escape HTML string safely for attribute embedding when needed.
-     */
-    function sanitizeText(str) {
-        if (!str) return '';
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
-
-    /**
      * Get local date string 'YYYY-MM-DD' from Date object.
      */
     function getLocalDateString(date) {
@@ -181,7 +191,7 @@
     }
 
     /**
-     * Format a date string 'YYYY-MM-DD' to elegant display string.
+     * Format a date string 'YYYY-MM-DD' to display string.
      */
     function formatDisplayDate(dateStr) {
         if (!dateStr) return '';
@@ -266,7 +276,7 @@
 
             const parsed = JSON.parse(rawData);
             if (!Array.isArray(parsed)) {
-                console.warn('Atelier: Corrupted tasks format in localStorage; initializing empty task list.');
+                console.warn('AthravOS: Corrupted tasks format in localStorage; initializing empty task list.');
                 state.tasks = [];
                 return;
             }
@@ -289,7 +299,7 @@
                 };
             });
         } catch (error) {
-            console.error('Atelier: Failed to load tasks from localStorage:', error);
+            console.error('AthravOS: Failed to load tasks from localStorage:', error);
             state.tasks = [];
         }
     }
@@ -307,7 +317,7 @@
             localStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(payload));
             updateFooterStatus('Saved locally');
         } catch (error) {
-            console.error('Atelier: Failed to save tasks to localStorage:', error);
+            console.error('AthravOS: Failed to save tasks to localStorage:', error);
             showToast('Unable to save changes to local storage', 'danger');
         }
     }
@@ -321,7 +331,6 @@
             if (raw) {
                 const parsed = JSON.parse(raw);
                 if (Array.isArray(parsed) && parsed.length > 0) {
-                    // Combine default categories with stored ones, preserving uniqueness
                     const combined = Array.from(new Set([...DEFAULT_CATEGORIES, ...parsed]));
                     state.categories = combined;
                     return;
@@ -340,7 +349,7 @@
         try {
             localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(state.categories));
         } catch (e) {
-            console.error('Atelier: Failed to save categories:', e);
+            console.error('AthravOS: Failed to save categories:', e);
         }
     }
 
@@ -421,7 +430,6 @@
 
         DOM.toastContainer.appendChild(toast);
 
-        // Auto dismiss after 4 seconds
         setTimeout(() => {
             dismissToast(toast);
         }, 4000);
@@ -462,7 +470,6 @@
         }
 
         // SVG Radial Progress
-        // Circumference of r=42 is 2 * PI * 42 ≈ 263.89
         const circumference = 263.89;
         if (DOM.progressCircleFill) {
             const offset = circumference - (percentage / 100) * circumference;
@@ -497,7 +504,6 @@
         if (DOM.countCompleted) DOM.countCompleted.textContent = completedCount;
         if (DOM.countPending) DOM.countPending.textContent = pendingCount;
 
-        // Toggle clear completed button
         if (DOM.clearCompletedBtn) {
             DOM.clearCompletedBtn.hidden = completedCount === 0;
         }
@@ -591,7 +597,6 @@
 
     function removeCustomCategory(cat) {
         state.categories = state.categories.filter(c => c !== cat);
-        // If any task had this category, keep it or fallback
         saveCategories();
         renderCategoryOptions();
         showToast(`Category "${cat}" removed`);
@@ -605,9 +610,7 @@
         const todayStr = getTodayString();
         const query = (state.searchQuery || '').toLowerCase().trim();
 
-        // 1. Filter
         let result = state.tasks.filter(task => {
-            // Status Filter
             switch (state.activeFilter) {
                 case 'today':
                     if (task.dueDate !== todayStr) return false;
@@ -629,17 +632,14 @@
                     break;
             }
 
-            // Category Filter
             if (state.activeCategory !== 'all' && task.category !== state.activeCategory) {
                 return false;
             }
 
-            // Priority Filter
             if (state.activePriority !== 'all' && task.priority !== state.activePriority) {
                 return false;
             }
 
-            // Search Query Filter (Title & Description)
             if (query) {
                 const titleMatch = (task.title || '').toLowerCase().includes(query);
                 const descMatch = (task.description || '').toLowerCase().includes(query);
@@ -649,7 +649,6 @@
             return true;
         });
 
-        // 2. Sort
         const priorityWeight = { high: 3, medium: 2, low: 1 };
 
         result.sort((a, b) => {
@@ -698,10 +697,9 @@
         const filteredTasks = getFilteredAndSortedTasks();
         DOM.taskList.innerHTML = '';
 
-        // Update list title and count
         const filterTitleMap = {
             all: 'All Tasks',
-            today: "Today's Tasks",
+            today: "Today's Agenda",
             upcoming: 'Upcoming Tasks',
             overdue: 'Overdue Tasks',
             completed: 'Completed Tasks',
@@ -717,7 +715,6 @@
             DOM.taskListCounter.textContent = `Showing ${countText}`;
         }
 
-        // Check if any filters are active to show reset button
         const isFiltered = state.activeFilter !== 'all' ||
             state.activeCategory !== 'all' ||
             state.activePriority !== 'all' ||
@@ -727,26 +724,25 @@
             DOM.resetFiltersBtn.hidden = !isFiltered;
         }
 
-        // Handle empty state
         if (filteredTasks.length === 0) {
             DOM.taskList.hidden = true;
             if (DOM.emptyState) {
                 DOM.emptyState.hidden = false;
                 if (state.searchQuery.trim()) {
                     DOM.emptyStateTitle.textContent = 'No matching tasks';
-                    DOM.emptyStateMessage.textContent = `No tasks matched your search "${state.searchQuery}". Try a different keyword or clear the search.`;
+                    DOM.emptyStateMessage.textContent = `No tasks matched "${state.searchQuery}". Try adjusting your keywords or clearing the search.`;
                 } else if (state.activeFilter === 'overdue') {
                     DOM.emptyStateTitle.textContent = 'No overdue tasks';
-                    DOM.emptyStateMessage.textContent = 'Outstanding! All scheduled deadlines are up to date.';
+                    DOM.emptyStateMessage.textContent = 'All deadlines are on track! Keep up the momentum in AthravOS.';
                 } else if (state.activeFilter === 'today') {
                     DOM.emptyStateTitle.textContent = 'No tasks for today';
-                    DOM.emptyStateMessage.textContent = 'Your schedule is clear for today. Plan ahead or take time to recharge.';
+                    DOM.emptyStateMessage.textContent = 'Your schedule is clear for today. Plan ahead or enjoy your personal time.';
                 } else if (state.activeFilter === 'completed') {
                     DOM.emptyStateTitle.textContent = 'No completed tasks yet';
                     DOM.emptyStateMessage.textContent = 'Check off tasks as you finish them to track your accomplishments.';
                 } else {
                     DOM.emptyStateTitle.textContent = 'No tasks found';
-                    DOM.emptyStateMessage.textContent = 'Get started by creating your first task to stay organized and productive.';
+                    DOM.emptyStateMessage.textContent = 'Get started by creating your first task to organize your workspace.';
                 }
             }
             return;
@@ -755,7 +751,6 @@
         DOM.taskList.hidden = false;
         if (DOM.emptyState) DOM.emptyState.hidden = true;
 
-        // Render each task card using safe DOM creation (Prevents XSS completely)
         filteredTasks.forEach(task => {
             const li = createTaskCardElement(task);
             DOM.taskList.appendChild(li);
@@ -763,7 +758,7 @@
     }
 
     /**
-     * Create single task DOM card with accessible markup and security best practices.
+     * Create single task DOM card with safe construction and full accessibility.
      */
     function createTaskCardElement(task) {
         const li = document.createElement('li');
@@ -794,7 +789,6 @@
         const contentDiv = document.createElement('div');
         contentDiv.className = 'task-main-content';
 
-        // Title Row
         const headlineRow = document.createElement('div');
         headlineRow.className = 'task-headline-row';
 
@@ -807,7 +801,6 @@
         headlineRow.appendChild(titleSpan);
         contentDiv.appendChild(headlineRow);
 
-        // Optional Description
         if (task.description && task.description.trim()) {
             const descP = document.createElement('p');
             descP.className = 'task-description-text';
@@ -858,7 +851,7 @@
 
         contentDiv.appendChild(badgesRow);
 
-        // 3. Action Buttons Group (Edit & Delete)
+        // 3. Actions Group
         const actionsGroup = document.createElement('div');
         actionsGroup.className = 'task-actions-group';
 
@@ -915,7 +908,6 @@
         const currentYear = state.calendarDate.getFullYear();
         const currentMonth = state.calendarDate.getMonth();
 
-        // Month Header Display
         const monthNames = [
             'January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'
@@ -924,8 +916,7 @@
             DOM.calendarMonthYearDisplay.textContent = `${monthNames[currentMonth]} ${currentYear}`;
         }
 
-        // First day of month and total days
-        const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay(); // 0 = Sun
+        const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
 
@@ -936,7 +927,6 @@
             state.selectedCalendarDay = todayStr;
         }
 
-        // Previous month filler days
         for (let i = firstDayIndex - 1; i >= 0; i--) {
             const dayNum = prevMonthLastDay - i;
             const prevMonthDate = new Date(currentYear, currentMonth - 1, dayNum);
@@ -946,7 +936,6 @@
             DOM.calendarDaysGrid.appendChild(cell);
         }
 
-        // Current month days
         for (let d = 1; d <= daysInMonth; d++) {
             const currentMonthDate = new Date(currentYear, currentMonth, d);
             const dateStr = getLocalDateString(currentMonthDate);
@@ -955,7 +944,6 @@
             DOM.calendarDaysGrid.appendChild(cell);
         }
 
-        // Next month filler days (fill up to grid of 35 or 42 cells)
         const totalRendered = firstDayIndex + daysInMonth;
         const remainingCells = totalRendered <= 35 ? 35 - totalRendered : 42 - totalRendered;
 
@@ -967,7 +955,6 @@
             DOM.calendarDaysGrid.appendChild(cell);
         }
 
-        // Render agenda for currently selected day
         renderCalendarAgenda(state.selectedCalendarDay);
     }
 
@@ -981,7 +968,6 @@
         if (isOtherMonth) cell.classList.add('other-month');
         if (dateStr === state.selectedCalendarDay) cell.classList.add('selected-day');
 
-        // Top Row (Day Number)
         const topRow = document.createElement('div');
         topRow.className = 'day-cell-top';
 
@@ -991,14 +977,12 @@
         topRow.appendChild(numSpan);
         cell.appendChild(topRow);
 
-        // Find tasks scheduled on this day
         const dayTasks = state.tasks.filter(t => t.dueDate === dateStr);
 
         if (dayTasks.length > 0) {
             const indicatorsDiv = document.createElement('div');
             indicatorsDiv.className = 'day-task-indicators';
 
-            // Show up to 2 pills, then "+X more"
             const maxPills = 2;
             dayTasks.slice(0, maxPills).forEach(task => {
                 const pill = document.createElement('div');
@@ -1021,7 +1005,6 @@
             cell.appendChild(indicatorsDiv);
         }
 
-        // Click handler to select day & inspect agenda
         cell.addEventListener('click', function () {
             selectCalendarDay(dateStr);
         });
@@ -1032,7 +1015,6 @@
     function selectCalendarDay(dateStr) {
         state.selectedCalendarDay = dateStr;
 
-        // Update active class on cells
         const cells = document.querySelectorAll('.calendar-day-cell');
         cells.forEach(c => {
             if (c.getAttribute('data-date') === dateStr) {
@@ -1060,7 +1042,7 @@
             const emptyLi = document.createElement('li');
             emptyLi.className = 'empty-agenda-text';
             emptyLi.style.fontSize = '0.86rem';
-            emptyLi.style.color = 'var(--text-muted)';
+            emptyLi.style.color = 'var(--text-secondary)';
             emptyLi.style.padding = '8px 0';
             emptyLi.textContent = 'No tasks scheduled for this day.';
             DOM.agendaTaskList.appendChild(emptyLi);
@@ -1077,9 +1059,6 @@
     // Task CRUD Operations
     // =========================================================================
 
-    /**
-     * Create or update task from modal form submission.
-     */
     function handleTaskFormSubmit(e) {
         e.preventDefault();
 
@@ -1102,11 +1081,9 @@
         const dueDate = DOM.taskDueDate.value || '';
         const dueTime = DOM.taskDueTime.value || '';
 
-        // Prevent duplicate fast submissions
         DOM.saveTaskSubmitBtn.disabled = true;
 
         if (id) {
-            // Edit existing task
             const taskIndex = state.tasks.findIndex(t => t.id === id);
             if (taskIndex !== -1) {
                 state.tasks[taskIndex].title = title;
@@ -1122,7 +1099,6 @@
                 showToast(`Task "${title}" updated`);
             }
         } else {
-            // Create new task
             const newTask = {
                 id: generateId(),
                 title: title,
@@ -1171,7 +1147,7 @@
     }
 
     /**
-     * Backward-compatible global addTask function (satisfies legacy script.js tests & inline button).
+     * Backward-compatible global addTask function (satisfies legacy tests & buttons).
      */
     function addTask() {
         if (!DOM.taskInput) return;
@@ -1187,15 +1163,8 @@
 
     window.createTask = createTask;
     window.addTask = addTask;
-
-    /**
-     * Backward-compatible saveTasks function.
-     */
     window.saveTasks = saveTasks;
 
-    /**
-     * Toggle completion status of a task.
-     */
     function toggleTaskCompletion(taskId) {
         const task = state.tasks.find(t => t.id === taskId);
         if (!task) return;
@@ -1210,9 +1179,6 @@
         showToast(`Task marked as ${statusMsg}`);
     }
 
-    /**
-     * Open task creation modal.
-     */
     function openCreateTaskModal(prefillDate = null) {
         DOM.taskModalTitle.textContent = 'Create Task';
         DOM.saveTaskSubmitBtn.textContent = 'Save Task';
@@ -1230,9 +1196,6 @@
         setTimeout(() => DOM.taskInput.focus(), 50);
     }
 
-    /**
-     * Open task edit modal with pre-filled metadata.
-     */
     function openEditTaskModal(taskId) {
         const task = state.tasks.find(t => t.id === taskId);
         if (!task) return;
@@ -1261,15 +1224,12 @@
         if (DOM.titleError) DOM.titleError.hidden = true;
     }
 
-    /**
-     * Open delete confirmation dialog.
-     */
     function openDeleteConfirmation(taskId) {
         const task = state.tasks.find(t => t.id === taskId);
         if (!task) return;
 
         state.deleteTargetId = taskId;
-        DOM.confirmDeleteText.textContent = `Are you sure you want to delete "${task.title}"? This action cannot be undone.`;
+        DOM.confirmDeleteText.textContent = `Are you sure you want to permanently delete "${task.title}"? This action cannot be undone.`;
         DOM.confirmDeleteModal.hidden = false;
         setTimeout(() => DOM.confirmDeleteBtn.focus(), 50);
     }
@@ -1308,9 +1268,6 @@
         closeDeleteConfirmation();
     }
 
-    /**
-     * Clear all completed tasks.
-     */
     function clearAllCompletedTasks() {
         const completedTasks = state.tasks.filter(t => t.completed);
         if (completedTasks.length === 0) return;
@@ -1324,8 +1281,43 @@
     }
 
     // =========================================================================
-    // View Synchronization & Refresh
+    // View Synchronization & Navbar Navigation Engine
     // =========================================================================
+
+    function updateNavActiveStates() {
+        const isCalendar = state.activeView === 'calendar';
+        const isToday = state.activeView === 'list' && state.activeFilter === 'today';
+        const isAll = state.activeView === 'list' && state.activeFilter !== 'today';
+
+        // Desktop Navigation Links
+        if (DOM.navDashboardToday) DOM.navDashboardToday.classList.toggle('active', isToday);
+        if (DOM.navAllTasks) DOM.navAllTasks.classList.toggle('active', isAll);
+        if (DOM.navCalendar) DOM.navCalendar.classList.toggle('active', isCalendar);
+
+        // Mobile Drawer Links
+        if (DOM.mobileNavToday) DOM.mobileNavToday.classList.toggle('active', isToday);
+        if (DOM.mobileNavAll) DOM.mobileNavAll.classList.toggle('active', isAll);
+        if (DOM.mobileNavCalendar) DOM.mobileNavCalendar.classList.toggle('active', isCalendar);
+
+        // Mobile Bottom Navigation Bar
+        if (DOM.bottomNavDashboard) DOM.bottomNavDashboard.classList.toggle('active', isToday);
+        if (DOM.bottomNavAllTasks) DOM.bottomNavAllTasks.classList.toggle('active', isAll);
+        if (DOM.bottomNavCalendar) DOM.bottomNavCalendar.classList.toggle('active', isCalendar);
+    }
+
+    function setFilter(filterName) {
+        state.activeFilter = filterName;
+
+        // Sync filter tabs
+        DOM.filterTabs.forEach(tab => {
+            const isMatch = tab.getAttribute('data-filter') === filterName;
+            tab.classList.toggle('active', isMatch);
+            tab.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+        });
+
+        renderTaskList();
+        updateNavActiveStates();
+    }
 
     function refreshAllViews() {
         updateDashboardMetrics();
@@ -1334,6 +1326,7 @@
         } else {
             renderCalendar();
         }
+        updateNavActiveStates();
     }
 
     function switchView(viewName) {
@@ -1361,6 +1354,21 @@
             DOM.listViewContainer.hidden = true;
             renderCalendar();
         }
+
+        updateNavActiveStates();
+    }
+
+    function closeMobileMenuDrawer() {
+        if (DOM.mobileMenuDrawer) {
+            DOM.mobileMenuDrawer.hidden = true;
+        }
+        if (DOM.mobileMenuToggleBtn) {
+            DOM.mobileMenuToggleBtn.setAttribute('aria-expanded', 'false');
+            const openIcon = DOM.mobileMenuToggleBtn.querySelector('.menu-icon-open');
+            const closeIcon = DOM.mobileMenuToggleBtn.querySelector('.menu-icon-close');
+            if (openIcon) openIcon.style.display = 'block';
+            if (closeIcon) closeIcon.style.display = 'none';
+        }
     }
 
     // =========================================================================
@@ -1368,7 +1376,70 @@
     // =========================================================================
 
     function bindEvents() {
-        // View Toggle Buttons
+        // Working Navigation Links (Desktop & Mobile)
+        const handleNavToday = () => {
+            closeMobileMenuDrawer();
+            switchView('list');
+            setFilter('today');
+            const mainEl = document.getElementById('main-content');
+            if (mainEl) mainEl.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        const handleNavAll = () => {
+            closeMobileMenuDrawer();
+            switchView('list');
+            setFilter('all');
+            const mainEl = document.getElementById('main-content');
+            if (mainEl) mainEl.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        const handleNavCalendar = () => {
+            closeMobileMenuDrawer();
+            switchView('calendar');
+            const mainEl = document.getElementById('main-content');
+            if (mainEl) mainEl.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        const handleNavCategories = () => {
+            closeMobileMenuDrawer();
+            if (DOM.categoryModal) {
+                DOM.categoryModal.hidden = false;
+                setTimeout(() => DOM.newCategoryInput && DOM.newCategoryInput.focus(), 50);
+            }
+        };
+
+        // Desktop Navbar Link Listeners
+        if (DOM.navDashboardToday) DOM.navDashboardToday.addEventListener('click', handleNavToday);
+        if (DOM.navAllTasks) DOM.navAllTasks.addEventListener('click', handleNavAll);
+        if (DOM.navCalendar) DOM.navCalendar.addEventListener('click', handleNavCalendar);
+        if (DOM.navCategories) DOM.navCategories.addEventListener('click', handleNavCategories);
+
+        // Mobile Drawer Link Listeners
+        if (DOM.mobileNavToday) DOM.mobileNavToday.addEventListener('click', handleNavToday);
+        if (DOM.mobileNavAll) DOM.mobileNavAll.addEventListener('click', handleNavAll);
+        if (DOM.mobileNavCalendar) DOM.mobileNavCalendar.addEventListener('click', handleNavCalendar);
+        if (DOM.mobileNavCategories) DOM.mobileNavCategories.addEventListener('click', handleNavCategories);
+
+        // Mobile Bottom Navigation Listeners
+        if (DOM.bottomNavDashboard) DOM.bottomNavDashboard.addEventListener('click', handleNavToday);
+        if (DOM.bottomNavAllTasks) DOM.bottomNavAllTasks.addEventListener('click', handleNavAll);
+        if (DOM.bottomNavCalendar) DOM.bottomNavCalendar.addEventListener('click', handleNavCalendar);
+        if (DOM.bottomNavCategories) DOM.bottomNavCategories.addEventListener('click', handleNavCategories);
+
+        // Mobile Hamburger Drawer Toggle
+        if (DOM.mobileMenuToggleBtn && DOM.mobileMenuDrawer) {
+            DOM.mobileMenuToggleBtn.addEventListener('click', function () {
+                const isHidden = DOM.mobileMenuDrawer.hidden;
+                DOM.mobileMenuDrawer.hidden = !isHidden;
+                DOM.mobileMenuToggleBtn.setAttribute('aria-expanded', String(isHidden));
+                const openIcon = DOM.mobileMenuToggleBtn.querySelector('.menu-icon-open');
+                const closeIcon = DOM.mobileMenuToggleBtn.querySelector('.menu-icon-close');
+                if (openIcon) openIcon.style.display = isHidden ? 'none' : 'block';
+                if (closeIcon) closeIcon.style.display = isHidden ? 'block' : 'none';
+            });
+        }
+
+        // View Switchers
         if (DOM.listViewBtn) {
             DOM.listViewBtn.addEventListener('click', () => switchView('list'));
         }
@@ -1469,15 +1540,8 @@
         // Status Filter Tabs
         DOM.filterTabs.forEach(tab => {
             tab.addEventListener('click', function () {
-                DOM.filterTabs.forEach(t => {
-                    t.classList.remove('active');
-                    t.setAttribute('aria-selected', 'false');
-                });
-                tab.classList.add('active');
-                tab.setAttribute('aria-selected', 'true');
-
-                state.activeFilter = tab.getAttribute('data-filter') || 'all';
-                renderTaskList();
+                const filter = tab.getAttribute('data-filter') || 'all';
+                setFilter(filter);
             });
         });
 
@@ -1521,6 +1585,7 @@
                 });
 
                 renderTaskList();
+                updateNavActiveStates();
                 showToast('Filters reset to default');
             });
         }
@@ -1551,14 +1616,15 @@
             const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
             const isInputFocused = activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select';
 
-            // Escape key closes modals
+            // Escape key closes modals and mobile drawer
             if (e.key === 'Escape') {
                 if (!DOM.taskModal.hidden) closeTaskModal();
                 if (!DOM.confirmDeleteModal.hidden) closeDeleteConfirmation();
                 if (!DOM.categoryModal.hidden) DOM.categoryModal.hidden = true;
+                closeMobileMenuDrawer();
             }
 
-            // 'N' key opens new task modal (when not typing in an input)
+            // 'N' key opens new task modal
             if ((e.key === 'n' || e.key === 'N') && !isInputFocused && !e.ctrlKey && !e.metaKey) {
                 e.preventDefault();
                 openCreateTaskModal();
@@ -1593,7 +1659,6 @@
     // =========================================================================
 
     function init() {
-        // Set header date
         if (DOM.currentDateDisplay) {
             const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
             DOM.currentDateDisplay.textContent = new Date().toLocaleDateString(undefined, options);
@@ -1604,7 +1669,6 @@
         loadTasks();
         renderCategoryOptions();
 
-        // Restore view preference
         try {
             const savedView = localStorage.getItem(STORAGE_KEY_VIEW);
             if (savedView === 'calendar' || savedView === 'list') {
@@ -1617,7 +1681,6 @@
         updateDashboardMetrics();
     }
 
-    // Run initialization on DOM load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {

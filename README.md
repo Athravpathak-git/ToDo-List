@@ -1,116 +1,109 @@
-# Atelier — Productivity Dashboard
+# AthravOS — Your Personal Productivity Space
 
-A modern, editorial productivity dashboard and task architecture built with pure vanilla web technologies. Inspired by high-end editorial design and modern productivity workspaces, **Atelier** transforms task tracking into a refined, high-performance portfolio application.
+A modern, clean productivity workspace designed to organize tasks, manage your time, and track your progress with elegance and clarity. Built with pure vanilla web technologies, **AthravOS** provides a distinctive, refined workspace that turns daily task management into an intuitive, productive experience.
 
----
-
-## Overview
-
-Atelier was engineered to demonstrate foundational frontend mastery without relying on heavyweight frameworks or third-party runtime dependencies. It features complete task lifecycle management, multi-criteria filtering, live analytics with visual progress indicators, an interactive monthly calendar engine, custom category orchestration, and a dual-theme system (Light & Dark) with zero theme flicker (FOUC).
+Live Website: [https://athravpathak-git.github.io/ToDo-List/](https://athravpathak-git.github.io/ToDo-List/)
 
 ---
 
-## Editorial Design & Color Palette
+## Brand Identity & Design System
 
-The interface is styled around a bespoke luxury palette with strict adherence to WCAG AA contrast standards:
+AthravOS features a distinctive visual identity built on organic, warm tones designed for high focus and zero visual fatigue:
 
-| Color Name | Hex Code | Purpose |
+| Color Name | Hex Code | Role in AthravOS |
 | :--- | :--- | :--- |
-| **Deep Burgundy** | `#572633` | Brand monogram, primary buttons, active tabs, strong emphasis |
-| **Soft Cream** | `#F7F2EA` | Light mode canvas, dark mode high-contrast typography |
-| **Rose Gold** | `#C18E83` | Focus outlines, accent highlights, progress rings, dark mode accents |
-| **Charcoal** | `#292326` | Light mode text, dark mode surfaces, toast notifications |
-| **Muted Blush** | `#E7D5D2` | Card borders, secondary surface tints, pill backgrounds |
+| **Warm Ivory** | `#F7F5F0` | Clean, warm canvas background for light mode |
+| **White Cards** | `#FFFFFF` | Elevated surface containers with soft borders |
+| **Forest Green** | `#315C46` | Primary brand accent, action buttons, active navigation states |
+| **Sage Green** | `#A8B9A0` | Secondary highlights, subtle badges, active indicators |
+| **Charcoal** | `#252923` | High-contrast, crystal-clear typography |
+| **Warm Grey** | `#77776F` | Secondary labels, muted timestamps, and icons |
+| **Soft Beige** | `#E8E4DA` | Structural dividers, card borders, and input strokes |
+| **Coral** | `#D97757` | High-priority task badges and urgent overdue indicators |
 
 ---
 
-## Key Features
+## Redesigned Navigation Experience
+
+AthravOS introduces a completely redesigned navigation system:
+
+### Desktop Navigation
+- **Custom Productivity Icon & Wordmark**: Proprietary geometric check/spark brand mark paired with the AthravOS wordmark.
+- **Dedicated Section Links**:
+  - **Dashboard / Today**: Focuses on today's priorities and dashboard metrics.
+  - **All Tasks**: Instantly displays all workspace tasks with sorting and filtering.
+  - **Calendar**: Navigates to the interactive monthly calendar engine.
+  - **Categories**: Opens the Category Manager modal.
+- **Search Control**: Real-time filtering across titles and descriptions with keyboard shortcut hint (`Ctrl+K` or `/`).
+- **Prominent Action Button**: Forest Green `+ New Task` button.
+- **Theme Toggle**: One-click switch between Warm Ivory (Light) and Deep Forest-Charcoal (Dark).
+
+### Mobile Navigation
+- **Responsive Top Header**: AthravOS logo, theme toggle, and hamburger toggle.
+- **Slide-Down Mobile Drawer**: Full-width navigation links and workspace stats overview.
+- **Sticky Thumb-Friendly Bottom Navigation**: Dedicated 4-tab bottom bar (`Today`, `Tasks`, `Calendar`, `Categories`) providing 1-tap access on touch devices with zero text clipping or horizontal scrolling.
+
+---
+
+## Core Features
 
 ### 1. Task Lifecycle Management
-- **Full CRUD Support**: Create, view, edit, complete, reopen, and delete tasks.
-- **Title & Description**: Detailed descriptions with expandable layout.
-- **Form Validation**: Clean validation preventing blank titles, with inline guidance.
-- **Destructive Action Safety**: Custom accessible modal confirmation for task deletion, plus a 4-second "Undo" toast.
-- **Dynamic Empty States**: Context-aware empty state messaging tailored to search terms, overdue status, or today's agenda.
+- **Full CRUD Operations**: Create, view, edit, complete, reopen, and delete tasks.
+- **Title Validation**: Immediate feedback on required task titles without abrupt alerts.
+- **Destructive Action Safety**: Accessible delete confirmation modal with a 4-second "Undo" toast notification.
+- **Contextual Empty States**: Custom illustrations and guidance when filters yield no results.
 
-### 2. Comprehensive Task Metadata
-Each task records:
-- `id`: Unique identifier
-- `title` & legacy `text`: Preserves 100% backward compatibility
-- `description`: Optional rich notes
-- `priority`: `high`, `medium`, or `low` with color-coded badges
-- `category`: Assigned tag (default or custom)
-- `dueDate` & `dueTime`: Scheduled deadline with relative badges (`Today`, `Tomorrow`, `Overdue by X days`)
-- `completed`: Completion flag
-- `createdAt` & `updatedAt`: Timestamps formatted cleanly
+### 2. Task Details & Compatibility
+- Supported metadata: `id`, `title`, legacy `text`, `description`, `priority` (`high` [Coral], `medium`, `low`), `category`, `dueDate`, `dueTime`, `completed`, `createdAt`, `updatedAt`.
+- **100% Backward Compatible**: Reads existing localStorage tasks seamlessly without data corruption.
 
 ### 3. Analytics Dashboard
-- Live tracking of **Total Tasks**, **Completed**, **Pending**, and **Overdue**.
-- Real-time completion percentage calculation.
-- Dual visual progress indicators:
-  - SVG circular radial progress ring.
-  - Linear animated progress bar with accessible `role="progressbar"`.
+- Live counters for **Total Tasks**, **Completed**, **Pending**, and **Overdue**.
+- Real-time completion rate calculation.
+- **Dual Visual Indicators**: Animated SVG radial progress circle and linear progress bar with `role="progressbar"`.
 
-### 4. Search, Filtering & Sorting
-- **Instant Search**: Real-time substring matching across both task titles and descriptions (`Ctrl+K` or `/` shortcut).
-- **Status Filter Tabs**: All, Today, Upcoming, Overdue, Completed, Pending (with live badge counters).
+### 4. Multi-Criteria Filtering, Search & Sorting
+- **Status Filters**: All, Today, Upcoming, Overdue, Completed, Pending (with live count badges).
 - **Category Filter**: Filter by default or custom categories.
 - **Priority Filter**: High, Medium, Low.
-- **6 Sorting Orders**: Due Date (Earliest / Latest), Priority (High to Low), Created Date (Newest / Oldest), and Alphabetical (A - Z).
-- **Unified Querying**: All search, status, category, priority, and sort criteria operate together in tandem.
+- **6 Sort Modes**: Due Date (Asc/Desc), Priority (High to Low), Created Date (Newest/Oldest), Alphabetical (A–Z).
+- Filters operate simultaneously in tandem.
 
-### 5. Custom Categories
-- Pre-loaded with standard productivity categories: `Personal`, `Study`, `College`, and `Projects`.
-- Built-in Category Manager modal to create custom categories.
-- Delete custom categories without affecting default categories.
-- Automatic synchronization across filters and task creation forms.
+### 5. Categories Engine
+- Default tags: `Personal`, `Study`, `College`, and `Projects`.
+- Custom Category Manager modal allowing users to create and delete custom categories.
+- Persistent in `localStorage`.
 
-### 6. Interactive Dual Views (List & Calendar)
-- **List View**: Chronological task cards with priority badges, overdue alerts, and quick actions.
-- **Monthly Calendar Engine**:
-  - Full 7-column calendar grid with month navigation (`< Prev`, `Today`, `Next >`).
-  - Day cells display task dots and priority pills.
-  - Selected day activates an **Agenda Drawer** displaying all tasks scheduled for that date, with a quick "+ Add Task for This Date" shortcut.
-  - Fully responsive and horizontally scrollable on mobile viewports.
+### 6. Interactive Calendar View
+- 7-column monthly calendar grid with `< Prev`, `Today`, `Next >` navigation.
+- Date cells display task indicators (highlighting Coral for high-priority or overdue tasks).
+- Interactive **Agenda Drawer** displaying all tasks for the selected date with a quick "+ Add Task for This Date" shortcut.
 
 ### 7. Dual Theme (Light & Dark Mode)
-- One-click theme toggle in header.
-- Persistent user preference stored in `localStorage` (`todo_theme`).
-- Respects system `prefers-color-scheme` on first launch.
-- Pre-render inline script in `<head>` ensures zero theme flash (FOUC).
+- Custom Warm Ivory and Deep Forest-Charcoal themes.
+- Persisted in `localStorage` under `todo_theme`.
+- Preload script prevents theme flashes (FOUC).
 
-### 8. Data Persistence & Backward Compatibility
-- Reads and writes to `localStorage` under the `"tasks"` key.
-- Gracefully migrates older tasks (e.g. `{ text: "...", completed: boolean }`) into the upgraded schema without data loss.
-- Resilient JSON parsing with try/catch fallbacks.
-- Never injects mock data or overwrites existing user data.
-- Entirely client-side with zero external database dependencies.
-
-### 9. UX & Accessibility (a11y)
-- Accessible skip link (`Skip to main content`).
-- ARIA landmarks (`role="banner"`, `role="tablist"`, `role="tabpanel"`, `role="dialog"`, `role="status"`).
-- Keyboard shortcuts:
-  - `Ctrl + K` or `/` : Jump to search input
+### 8. Accessibility & Keyboard Shortcuts
+- Semantic HTML5 landmark structure.
+- Shortcuts:
+  - `Ctrl + K` or `/` : Focus search input
   - `N` : Open New Task modal
-  - `Esc` : Close any active modal
-- Focus management: Traps focus within open modals and restores focus upon closing.
-- Visible focus rings (`outline: 2px solid var(--rose-gold)`).
-- Respects `@media (prefers-reduced-motion: reduce)` to disable transitions for sensitive users.
+  - `Esc` : Close any active modal or drawer
+- Focus management: Trapped focus inside modals with visible `:focus-visible` ring.
 
 ---
 
 ## Technologies Used
 
-- **HTML5**: Semantic elements, accessible form controls, inline SVG vector icons.
-- **CSS3**: Custom properties (CSS variables), Flexbox, CSS Grid, media queries, keyframe animations.
-- **JavaScript (ES6+)**: Vanilla DOM manipulation, Web Storage API, Event delegation, Date arithmetic.
-- **Node.js**: Embedded test runner for unit and DOM integration verification.
+- **HTML5**: Semantic structure, accessibility landmarks, inline vector SVGs.
+- **CSS3**: Custom properties (CSS variables), CSS Grid, Flexbox, media queries.
+- **JavaScript (ES6+)**: Vanilla DOM manipulation, Web Storage API, Event delegation.
+- **Node.js**: Embedded test runner for unit and integration testing.
 
 ---
 
 ## Local Setup & Development
-
-No complex build steps, compilers, or heavy node modules are required.
 
 ### 1. Clone the repository
 ```bash
@@ -119,26 +112,26 @@ cd ToDo-List
 ```
 
 ### 2. Run Locally
-You can open `index.html` directly in any modern browser:
+Start a local development server on port 3003:
 
 **Using Python:**
 ```bash
-python -m http.server 8000
+python -m http.server 3003
 ```
-Then visit `http://localhost:8000` in your browser.
+Then visit `http://localhost:3003` in your browser.
 
-**Using Node / npx:**
+**Using npm:**
 ```bash
-npx serve .
+npm start
 ```
 
 ### 3. Running Automated Tests
-The repository includes a suite of unit and DOM integration tests that verify schema migration, overdue calculations, multi-filter logic, and UI event binding:
+Run unit and DOM integration tests:
 
 ```bash
-npm test
+npm.cmd test
 ```
-*Alternatively, run with Node directly:*
+*Or using Node directly:*
 ```bash
 node tests/unit.test.js
 node tests/integration.test.js
@@ -146,39 +139,15 @@ node tests/integration.test.js
 
 ---
 
-## Screenshot Guidance
+## Deployment
 
-When capturing screenshots for your developer portfolio or project showcase, consider the following views:
+AthravOS is deployed live on GitHub Pages:
+**[https://athravpathak-git.github.io/ToDo-List/](https://athravpathak-git.github.io/ToDo-List/)**
 
-1. **Dashboard Overview (Light Mode)**: Capture the header, metrics cards, progress ring, and task list with active tasks.
-2. **Dashboard Overview (Dark Mode)**: Switch to Dark Theme to showcase the burgundy and charcoal contrast.
-3. **Monthly Calendar View**: Switch to the Calendar tab showing scheduled tasks and the selected date agenda drawer.
-4. **Task Creation Modal**: Display the modal with priority selection, date pickers, and category dropdown.
-5. **Mobile Viewport**: Emulate an iPhone or Android screen in DevTools to demonstrate responsive stacking and touch controls.
-
-*(Place captured PNG images into a `/docs/screenshots/` folder and link them here if desired).*
-
----
-
-## Deployment Instructions
-
-Because Atelier is a static application, it can be deployed for free to any static hosting provider:
-
-### Option A: GitHub Pages
-1. Go to your repository settings on GitHub.
-2. Navigate to **Pages** in the left sidebar.
-3. Under **Branch**, select `main` and root directory `/`, then click **Save**.
-4. GitHub Pages will publish the site at `https://<username>.github.io/<repo-name>/`.
-
-### Option B: Vercel
-1. Import the repository in [Vercel](https://vercel.com).
-2. Keep the default settings (Framework preset: **Other**).
-3. Click **Deploy**.
-
-### Option C: Netlify
-1. Connect your repository in [Netlify](https://netlify.com).
-2. Set build command to empty and publish directory to `.`.
-3. Click **Deploy Site**.
+To deploy your own copy to GitHub Pages:
+1. Navigate to repository **Settings** > **Pages**.
+2. Under **Build and deployment** > **Branch**, select `main` and directory `/ (root)`.
+3. Save to publish.
 
 ---
 

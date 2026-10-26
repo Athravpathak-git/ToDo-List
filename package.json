@@ -1,19 +1,20 @@
 {
-  "name": "atelier-todo-dashboard",
-  "version": "2.0.0",
-  "description": "Premium modern productivity dashboard with list & calendar views, categories, priorities, analytics, and theme support.",
+  "name": "athravos",
+  "version": "2.1.0",
+  "description": "AthravOS — A modern workspace to organize tasks, manage your time, and track your progress.",
   "scripts": {
     "test": "node tests/unit.test.js && node tests/integration.test.js",
-    "start": "python -m http.server 8000"
+    "start": "python -m http.server 3003"
   },
   "keywords": [
+    "athravos",
     "todo",
     "productivity",
     "dashboard",
     "calendar",
     "vanilla-javascript",
     "portfolio",
-    "dark-mode"
+    "workspace"
   ],
   "author": "Atharv Pathak",
   "license": "MIT"

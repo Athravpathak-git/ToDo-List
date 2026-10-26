@@ -1,8 +1,8 @@
-// Atelier ToDo - Unit Test Suite
+// AthravOS - Unit Test Suite
 const fs = require('fs');
 const path = require('path');
 
-console.log('Running Atelier ToDo Unit Tests...');
+console.log('Running AthravOS Unit Tests...');
 
 const projectRoot = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(projectRoot, 'index.html'), 'utf8');

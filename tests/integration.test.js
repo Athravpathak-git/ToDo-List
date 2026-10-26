@@ -1,9 +1,9 @@
-// Atelier ToDo - Integration & DOM Simulation Tests
+// AthravOS - Integration & DOM Simulation Tests
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-console.log('Running Atelier ToDo Integration Tests...');
+console.log('Running AthravOS Integration Tests...');
 
 const projectRoot = path.join(__dirname, '..');
 const scriptCode = fs.readFileSync(path.join(projectRoot, 'script.js'), 'utf8');

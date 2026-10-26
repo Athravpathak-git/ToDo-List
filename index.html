@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Atelier ToDo - A premium, modern productivity dashboard with task management, calendar view, categories, priorities, and analytics.">
-    <title>Atelier — Productivity Dashboard</title>
+    <meta name="description" content="AthravOS — A modern workspace to organize tasks, manage your time, and track your progress.">
+    <title>AthravOS — Your Personal Productivity Space</title>
 
     <!-- Theme initialization script: eliminates theme flash (FOUC) -->
     <script>
@@ -20,10 +20,10 @@
         })();
     </script>
 
-    <!-- Google Fonts: Editorial Serif + Modern Clean Sans -->
+    <!-- Google Fonts: Refined Modern Geometric & Clean Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -31,18 +31,70 @@
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <div class="app-layout">
-        <!-- Top Navigation Bar -->
+        <!-- Main Application Navbar -->
         <header class="app-header" role="banner">
             <div class="header-inner">
+                <!-- Brand & Logo -->
                 <div class="brand-group">
-                    <div class="brand-monogram" aria-hidden="true">A</div>
-                    <div class="brand-text">
-                        <h1 class="brand-title">ATELIER</h1>
-                        <span class="brand-tagline">Productivity Dashboard</span>
-                    </div>
+                    <a href="#main-content" class="brand-link" aria-label="AthravOS - Your Personal Productivity Space">
+                        <div class="brand-icon-wrapper" aria-hidden="true">
+                            <svg class="brand-icon-svg" viewBox="0 0 36 36" fill="none">
+                                <rect width="36" height="36" rx="9" fill="var(--forest-green)" />
+                                <rect x="3" y="3" width="30" height="30" rx="7" stroke="var(--sage-green)" stroke-width="1.2" stroke-opacity="0.4" />
+                                <path d="M11 18.5L15.5 23L25 13.5" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="25" cy="22.5" r="2" fill="var(--sage-green)" />
+                            </svg>
+                        </div>
+                        <div class="brand-text">
+                            <span class="brand-title">AthravOS</span>
+                            <span class="brand-tagline">Personal Productivity Space</span>
+                        </div>
+                    </a>
                 </div>
 
-                <div class="header-center">
+                <!-- Desktop Working Navigation Bar -->
+                <nav class="desktop-nav-menu" role="navigation" aria-label="Primary Navigation">
+                    <button type="button" class="nav-link active" id="navDashboardToday" title="Dashboard & Today's Agenda">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <rect x="3" y="3" width="7" height="9" rx="1.5"></rect>
+                            <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+                            <rect x="14" y="12" width="7" height="9" rx="1.5"></rect>
+                            <rect x="3" y="16" width="7" height="5" rx="1.5"></rect>
+                        </svg>
+                        <span>Dashboard / Today</span>
+                    </button>
+                    <button type="button" class="nav-link" id="navAllTasks" title="View All Tasks">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <circle cx="4" cy="6" r="1.5" fill="currentColor"></circle>
+                            <circle cx="4" cy="12" r="1.5" fill="currentColor"></circle>
+                            <circle cx="4" cy="18" r="1.5" fill="currentColor"></circle>
+                        </svg>
+                        <span>All Tasks</span>
+                    </button>
+                    <button type="button" class="nav-link" id="navCalendar" title="Monthly Calendar">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span>Calendar</span>
+                    </button>
+                    <button type="button" class="nav-link" id="navCategories" title="Manage Categories">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>
+                        <span>Categories</span>
+                    </button>
+                </nav>
+
+                <!-- Header Actions & Controls -->
+                <div class="header-actions">
+                    <!-- Date badge (Preserves #currentDateDisplay and #headerDateText) -->
                     <div class="current-date-badge" id="currentDateDisplay" aria-label="Current Date">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -52,10 +104,8 @@
                         </svg>
                         <span id="headerDateText">Today</span>
                     </div>
-                </div>
 
-                <div class="header-actions">
-                    <!-- View Mode Toggle (List / Calendar) -->
+                    <!-- View Switch (List / Calendar) -->
                     <div class="view-switch-group" role="tablist" aria-label="View switch">
                         <button type="button" class="view-toggle-btn active" id="listViewBtn" role="tab" aria-selected="true" aria-controls="listViewContainer" title="Switch to List View">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -97,7 +147,7 @@
                         </svg>
                     </button>
 
-                    <!-- Primary Action: New Task -->
+                    <!-- Prominent Forest-Green Action: New Task -->
                     <button type="button" class="btn btn-primary" id="openCreateModalBtn" aria-haspopup="dialog">
                         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -105,11 +155,72 @@
                         </svg>
                         <span>New Task</span>
                     </button>
+
+                    <!-- Mobile Hamburger Button -->
+                    <button type="button" class="icon-button mobile-menu-toggle" id="mobileMenuToggleBtn" aria-label="Open mobile menu" aria-expanded="false">
+                        <svg class="icon menu-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                        <svg class="icon menu-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="display:none;">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Drawer / Dropdown -->
+            <div class="mobile-nav-drawer" id="mobileMenuDrawer" hidden>
+                <div class="mobile-drawer-inner">
+                    <div class="mobile-drawer-brand">
+                        <span class="mobile-drawer-title">AthravOS Navigation</span>
+                        <span class="mobile-drawer-subtitle">Your Personal Productivity Space</span>
+                    </div>
+                    <div class="mobile-nav-links">
+                        <button type="button" class="mobile-nav-item active" id="mobileNavToday">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="9" rx="1.5"></rect>
+                                <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+                                <rect x="14" y="12" width="7" height="9" rx="1.5"></rect>
+                                <rect x="3" y="16" width="7" height="5" rx="1.5"></rect>
+                            </svg>
+                            <span>Dashboard / Today</span>
+                        </button>
+                        <button type="button" class="mobile-nav-item" id="mobileNavAll">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <circle cx="4" cy="6" r="1.5" fill="currentColor"></circle>
+                                <circle cx="4" cy="12" r="1.5" fill="currentColor"></circle>
+                                <circle cx="4" cy="18" r="1.5" fill="currentColor"></circle>
+                            </svg>
+                            <span>All Tasks</span>
+                        </button>
+                        <button type="button" class="mobile-nav-item" id="mobileNavCalendar">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span>Monthly Calendar</span>
+                        </button>
+                        <button type="button" class="mobile-nav-item" id="mobileNavCategories">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                            </svg>
+                            <span>Categories Manager</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <!-- Main Dashboard Container -->
+        <!-- Main Dashboard Workspace -->
         <main class="dashboard-container" id="main-content">
             <!-- 1. Metrics & Overview Section -->
             <section class="metrics-section" aria-label="Task Analytics and Progress">
@@ -128,7 +239,7 @@
                             </div>
                         </div>
                         <div class="metric-value" id="statTotal">0</div>
-                        <div class="metric-footer">All portfolio tasks</div>
+                        <div class="metric-footer">All workspace tasks</div>
                     </div>
 
                     <!-- Metric Card: Completed -->
@@ -143,7 +254,7 @@
                             </div>
                         </div>
                         <div class="metric-value" id="statCompleted">0</div>
-                        <div class="metric-footer" id="statCompletedLabel">Finished goals</div>
+                        <div class="metric-footer" id="statCompletedLabel">Accomplished goals</div>
                     </div>
 
                     <!-- Metric Card: Pending -->
@@ -174,7 +285,7 @@
                             </div>
                         </div>
                         <div class="metric-value" id="statOverdue">0</div>
-                        <div class="metric-footer">Requires attention</div>
+                        <div class="metric-footer">Attention needed</div>
                     </div>
 
                     <!-- Metric Card: Progress Indicator -->
@@ -323,7 +434,7 @@
                 </div>
 
                 <!-- The Task List (preserves compatibility with #taskList) -->
-                <ul class="task-list" id="taskList" role="list" aria-label="Task List">
+                <ul class="task-list" id="taskList" role="list" aria-label="AthravOS Task List">
                     <!-- Dynamically populated -->
                 </ul>
 
@@ -331,12 +442,12 @@
                 <div class="empty-state-card" id="emptyState" hidden>
                     <div class="empty-state-art" aria-hidden="true">
                         <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <rect x="12" y="8" width="40" height="48" rx="6" stroke="var(--burgundy)"></rect>
-                            <line x1="20" y1="20" x2="44" y2="20" stroke="var(--rose-gold)"></line>
-                            <line x1="20" y1="28" x2="38" y2="28" stroke="var(--rose-gold)"></line>
-                            <line x1="20" y1="36" x2="30" y2="36" stroke="var(--rose-gold)"></line>
-                            <circle cx="44" cy="42" r="10" fill="var(--bg-card)" stroke="var(--burgundy)"></circle>
-                            <polyline points="39 42 42.5 45.5 49 39" stroke="var(--burgundy)" stroke-width="2"></polyline>
+                            <rect x="12" y="8" width="40" height="48" rx="6" stroke="var(--forest-green)"></rect>
+                            <line x1="20" y1="20" x2="44" y2="20" stroke="var(--sage-green)"></line>
+                            <line x1="20" y1="28" x2="38" y2="28" stroke="var(--sage-green)"></line>
+                            <line x1="20" y1="36" x2="30" y2="36" stroke="var(--sage-green)"></line>
+                            <circle cx="44" cy="42" r="10" fill="var(--bg-card)" stroke="var(--forest-green)"></circle>
+                            <polyline points="39 42 42.5 45.5 49 39" stroke="var(--forest-green)" stroke-width="2"></polyline>
                         </svg>
                     </div>
                     <h3 class="empty-state-title" id="emptyStateTitle">No tasks found</h3>
@@ -410,10 +521,50 @@
             </section>
         </main>
 
+        <!-- Dedicated Mobile Bottom Navigation Bar -->
+        <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile Navigation">
+            <button type="button" class="bottom-nav-item active" id="bottomNavDashboard">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="9" rx="1.5"></rect>
+                    <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+                    <rect x="14" y="12" width="7" height="9" rx="1.5"></rect>
+                    <rect x="3" y="16" width="7" height="5" rx="1.5"></rect>
+                </svg>
+                <span>Today</span>
+            </button>
+            <button type="button" class="bottom-nav-item" id="bottomNavAllTasks">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <circle cx="4" cy="6" r="1.5" fill="currentColor"></circle>
+                    <circle cx="4" cy="12" r="1.5" fill="currentColor"></circle>
+                    <circle cx="4" cy="18" r="1.5" fill="currentColor"></circle>
+                </svg>
+                <span>Tasks</span>
+            </button>
+            <button type="button" class="bottom-nav-item" id="bottomNavCalendar">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>Calendar</span>
+            </button>
+            <button type="button" class="bottom-nav-item" id="bottomNavCategories">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                </svg>
+                <span>Categories</span>
+            </button>
+        </nav>
+
         <!-- Footer -->
         <footer class="app-footer">
             <div class="footer-inner">
-                <div class="footer-brand">Atelier Task Management System</div>
+                <div class="footer-brand">AthravOS &bull; Your Personal Productivity Space</div>
                 <div class="footer-shortcuts">
                     <span class="shortcut-badge"><kbd>/</kbd> or <kbd>Ctrl+K</kbd> Search</span>
                     <span class="shortcut-badge"><kbd>N</kbd> New Task</span>
@@ -464,7 +615,7 @@
                     <div class="form-group flex-1">
                         <label for="taskPriority" class="form-label">Priority</label>
                         <select id="taskPriority" class="form-control">
-                            <option value="high">High Priority</option>
+                            <option value="high">High Priority (Coral)</option>
                             <option value="medium" selected>Medium Priority</option>
                             <option value="low">Low Priority</option>
                         </select>
@@ -546,7 +697,7 @@
             <div class="modal-header">
                 <div>
                     <h2 class="modal-title" id="categoryModalTitle">Manage Categories</h2>
-                    <p class="modal-subtitle">Customize task tags for your workflow.</p>
+                    <p class="modal-subtitle">Customize task tags for your workspace.</p>
                 </div>
                 <button type="button" class="icon-button modal-close-btn" id="closeCategoryModalBtn" aria-label="Close category modal">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
